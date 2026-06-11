@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zustand Modal Pattern"
+  short_description: "Standardize Zustand modals and form flows"
+  default_prompt: "Use $use-zustand-modal-pattern when adding or changing a TypeScript modal."
