@@ -2,6 +2,9 @@
 
 Reusable Codex skills for consistent development workflows across projects.
 
+This repository also contains reusable `AGENTS.md` templates for configuring
+project-level agent behavior.
+
 ## Available Skills
 
 ### `use-zustand-modal-pattern`
@@ -58,3 +61,22 @@ Use $use-zustand-modal-pattern when adding this TypeScript modal.
 ```
 
 The skill can also trigger automatically when a task matches its description.
+
+## Project Agent Templates
+
+### TanStack Start
+
+[View the TanStack Start template](templates/AGENTS.tanstack-start.md)
+
+To configure another TanStack Start project, copy the template into that
+project root as `AGENTS.md`:
+
+```bash
+curl -L \
+  https://raw.githubusercontent.com/Thangnguyenvn98/Agent-Skills/main/templates/AGENTS.tanstack-start.md \
+  -o AGENTS.md
+```
+
+Review the copied file and adjust its stack assumptions to match the project,
+especially optional tools such as MSW, ShadCN, Zustand, React Hook Form, and
+the globally installed TanStack CLI.
