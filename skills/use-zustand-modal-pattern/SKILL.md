@@ -1,6 +1,6 @@
 ---
 name: use-zustand-modal-pattern
-description: Standardize TypeScript and TSX modal work around a centralized Zustand modal store, a trigger component, and a dedicated modal component, including validated form-input modals using React Hook Form and Zod. Use whenever adding, changing, refactoring, or reviewing a React modal or dialog in a TypeScript codebase that uses Zustand, especially with shadcn/ui or Radix Dialog.
+description: Standardize TypeScript and TSX modal work around a centralized Zustand modal store, a trigger component, and a dedicated modal component, including validated form-input modals and multi-step wizard modals. Use whenever adding, changing, refactoring, or reviewing a React modal or dialog in a TypeScript codebase that uses Zustand, especially with shadcn/ui or Radix Dialog.
 ---
 
 # Use Zustand Modal Pattern
@@ -20,6 +20,7 @@ For each new or materially changed modal:
 
 Read [references/canonical-example.md](references/canonical-example.md) when implementing or reviewing code.
 For a modal containing inputs, validation, or an API submission, also read [references/form-modal-example.md](references/form-modal-example.md).
+For a modal that coordinates several steps, card selection, or wizard-style form flows, also read [references/multi-step-form-modal-example.md](references/multi-step-form-modal-example.md).
 
 ## Store Rules
 
@@ -67,6 +68,20 @@ onOpenChange={open => {
 - Prefer mutation callbacks or awaited promises over arbitrary `setTimeout` calls for modal transitions.
 - Remove debug logging from completed code and preserve server error details through the repository's established error UI.
 
+## Multi-Step Form Modal Rules
+
+- Keep modal visibility in Zustand and keep the active step in the modal manager component.
+- Type steps as a narrow union, such as `type FlowStep = 'choose-service' | 'details'`, or as numbers only when labels add no clarity.
+- Reset the active step and any shared draft state in the same close handler that calls `onClose`.
+- Guard `Dialog` close handling with `if (!open) handleClose()` so open-state callbacks do not accidentally reset the wizard.
+- Compute open state with `isOpen && type === '<modalType>'`; use parentheses when a manager intentionally supports several related modal types.
+- Let each step own its React Hook Form instance when schemas differ by step, but persist cross-step draft data in a typed draft store or parent state.
+- Pass intent callbacks to child steps, such as `onNext`, `onBack`, `onSelect`, or `onComplete`, instead of passing raw `setState` when possible.
+- Compose and submit the final payload inside the final step submit handler. Avoid a "set draft, set flag, submit in useEffect" sequence because it can submit stale draft data.
+- Render titles and descriptions inside `DialogContent`; use `sr-only` for visually hidden accessible text.
+- For card-selection steps, use real `button` elements, `aria-pressed`, clear selected state, and require a selection before advancing.
+- Disable next/submit buttons while mutations are pending and keep the current step stable on server errors.
+
 ## Verification
 
 After editing:
@@ -77,5 +92,6 @@ After editing:
 4. Verify closing clears modal payload data.
 5. Verify the modal remains usable at narrow viewport widths.
 6. For form modals, verify validation, pending, success, failure, close/reopen reset, and duplicate-submit behavior.
+7. For multi-step modals, verify step order, back navigation, close reset, reopen reset, card/branch changes, final submission payload, and recovery from failed submission.
 
 Keep tests focused on changed behavior. Add store tests when changing shared modal state and interaction tests when changing user-visible dialog behavior.

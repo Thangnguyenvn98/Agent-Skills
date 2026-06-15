@@ -16,6 +16,7 @@ Standardizes TypeScript React modals around:
 - Dedicated trigger and modal components
 - shadcn/ui and Radix Dialog lifecycle handling
 - React Hook Form and Zod form modals
+- Multi-step card-selection and form modal flows
 - Submission, error, reset, and accessibility behavior
 
 [View the skill](skills/use-zustand-modal-pattern/SKILL.md)
