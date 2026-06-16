@@ -81,3 +81,19 @@ curl -L \
 Review the copied file and adjust its stack assumptions to match the project,
 especially optional tools such as MSW, ShadCN, Zustand, React Hook Form, and
 the globally installed TanStack CLI.
+
+### TanStack Query Pagination
+
+[View the TanStack Query pagination template](templates/AGENTS.tanstack-query-pagination.md)
+
+Use this template when you want agents to implement page-number pagination,
+load-more lists, or infinite scrolling with TanStack Query v5:
+
+```bash
+curl -L \
+  https://raw.githubusercontent.com/Thangnguyenvn98/Agent-Skills/main/templates/AGENTS.tanstack-query-pagination.md \
+  -o AGENTS.tanstack-query-pagination.md
+```
+
+You can copy the relevant sections into a project's `AGENTS.md` or keep it as
+a companion agent instruction file.
